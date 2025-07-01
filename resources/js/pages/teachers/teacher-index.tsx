@@ -1,12 +1,16 @@
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
 import { type BreadcrumbItem } from '@/types';
-import CommonPageLayout from '@/components/common-page-layout';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Teachers', href: '/teachers' },
-];
+const breadcrumbs: BreadcrumbItem[] = [{ title: 'Teachers', href: '/teachers' }];
 
 interface TeacherIndexProps {
     teachers: Array<{
@@ -21,60 +25,48 @@ interface TeacherIndexProps {
         address: string;
     }>;
 }
-
 export default function TeacherIndex({ teachers }: TeacherIndexProps) {
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <CommonPageLayout
-                header={
-                <>
-                    <h2 className="text-2xl font-semibold mb-2 text-left">Add Teacher</h2>
-                </>
-                }
-            >
-            <Head title="Teachers" />
-            <div className="flex flex-col items-center bg-background min-h-screen pt-1">
-                <div className="w-full max-w-7xl px-4 md:px-12">
-                    {/* <div className="mb-6">
-                        <Breadcrumbs breadcrumbs={breadcrumbs} />
-                        <h2 className="text-2xl font-semibold mb-2 text-left">Teachers</h2>
-                        <hr className="mb-6" />
-                    </div> */}
-                    <div className="flex justify-end mb-4">
-                        <Link href="/teachers/create">
-                            <Button>Add Teacher</Button>
-                        </Link>
-                    </div>
-                    <div className="overflow-x-auto rounded-xl border">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Employee Code</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Department</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {teachers?.map((teacher) => (
-                                    <tr key={teacher.id}>
-                                        <td className="px-6 py-4 whitespace-nowrap">{teacher.id}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{teacher.user?.name}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{teacher.employee_code}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{teacher.department}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <Link href={`/teachers/${teacher.id}/edit`} className="mr-2 text-blue-600 hover:underline">Edit</Link>
-                                            <Link href={`/teachers/${teacher.id}`} className="text-blue-600 hover:underline">View</Link>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        <AppLayout breadcrumbs={breadcrumbs} title="Teachers" btnText="Add Teacher" btnLink="/teachers/create">
+            <div className="p- overflow-x-auto rounded-xl border">
+                <Table>
+                    <TableHeader className="bg-gray-100">
+                        <TableRow className="font-bold">
+                            <TableHead className="w-[100px] px-3 text-gray-500">ID</TableHead>
+                            <TableHead className="w-[200px] px-3 text-gray-500">Name</TableHead>
+                            <TableHead className="w-[300px] px-3 text-gray-500">Employee</TableHead>
+                            <TableHead className="text-gray-500">Department</TableHead>
+                            <TableHead className="text-right text-gray-500"></TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {teachers?.map((teacher) => (
+                            <TableRow key={teacher.id}>
+                                <TableCell className="py-3 whitespace-nowrap">{teacher.id}</TableCell>
+                                <TableCell className="py-3 whitespace-nowrap">{teacher.user?.name}</TableCell>
+                                <TableCell className="py-3 whitespace-nowrap">{teacher.employee_code}</TableCell>
+                                <TableCell className="py-3 whitespace-nowrap">{teacher.department}</TableCell>
+                                <TableCell className="py-3 whitespace-nowrap">
+                                    {/* <Link href={`/teachers/${teacher.id}/edit`} className="mr-2 text-blue-600 hover:underline">
+                                        Edit
+                                    </Link> */}
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem>Profile</DropdownMenuItem>
+                                            <DropdownMenuItem>Billing</DropdownMenuItem>
+                                            <DropdownMenuItem>Team</DropdownMenuItem>
+                                            <DropdownMenuItem>Subscription</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
             </div>
-            </CommonPageLayout>
         </AppLayout>
     );
-} 
+}
