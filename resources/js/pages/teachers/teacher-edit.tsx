@@ -1,13 +1,13 @@
-import { Head, useForm, usePage } from '@inertiajs/react';
-import AppLayout from '@/layouts/app-layout';
 import CommonPageLayout from '@/components/common-page-layout';
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import InputError from '@/components/input-error';
+import AppLayout from '@/layouts/app-layout';
+import { Head, useForm, usePage } from '@inertiajs/react';
 
 export default function TeacherEdit() {
-    const { teacher } = (usePage().props as unknown) as {
+    const { teacher } = usePage().props as unknown as {
         teacher: {
             id: number;
             user_id: string;
@@ -44,17 +44,22 @@ export default function TeacherEdit() {
     };
 
     return (
-        <AppLayout breadcrumbs={[{ title: 'Teachers', href: '/teachers' }, { title: 'Edit Teacher', href: `/teachers/${teacher.id}/edit` }]}>
+        <AppLayout
+            breadcrumbs={[
+                { title: 'Teachers', href: '/teachers' },
+                { title: 'Edit Teacher', href: `/teachers/${teacher.id}/edit` },
+            ]}
+        >
             <CommonPageLayout
                 header={
                     <>
-                        <h2 className="text-2xl font-semibold mb-2 text-left">Edit Teacher</h2>
+                        <h2 className="mb-2 text-left text-2xl font-semibold">Edit Teacher</h2>
                     </>
                 }
             >
                 <Head title="Edit Teacher" />
                 <div className="w-full max-w-none px-4 md:px-12">
-                    <form className="w-full flex flex-col gap-6" onSubmit={submit}>
+                    <form className="flex w-full flex-col gap-6" onSubmit={submit}>
                         <div className="grid gap-6 md:grid-cols-2">
                             {/* Name */}
                             <div className="grid gap-2">
@@ -183,9 +188,9 @@ export default function TeacherEdit() {
                                 <select
                                     id="gender"
                                     value={data.gender}
-                                    onChange={e => setData('gender', e.target.value)}
+                                    onChange={(e) => setData('gender', e.target.value)}
                                     disabled={processing}
-                                    className="border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 px-3 py-2"
+                                    className="rounded-lg border-gray-300 px-3 py-2 shadow-sm focus:ring-2 focus:ring-blue-400"
                                 >
                                     <option value="">Select gender</option>
                                     <option value="male">Male</option>
@@ -233,4 +238,4 @@ export default function TeacherEdit() {
             </CommonPageLayout>
         </AppLayout>
     );
-} 
+}

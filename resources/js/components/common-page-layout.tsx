@@ -32,7 +32,7 @@ export default function CommonPageLayout({ children, header, breadcrumbs }: Comm
           </nav>
         )}
         {header && (
-          <div className="sticky top-0 z-20 bg-background border-b-1 pb-2 mb-4 pt-2">{header}</div>
+          <div className="sticky top-0 z-20 bg-background pb-2 mb-4 pt-6">{header}</div>
         )}
         {children}
       </div>

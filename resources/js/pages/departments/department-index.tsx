@@ -1,12 +1,11 @@
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
-import { Breadcrumbs } from '@/components/breadcrumbs';
 import { type BreadcrumbItem } from '@/types';
+import { Link } from '@inertiajs/react';
+import { EllipsisVertical } from 'lucide-react';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Departments', href: '/departments' },
-];
+const breadcrumbs: BreadcrumbItem[] = [{ title: 'Departments', href: '/departments' }];
 
 interface DepartmentIndexProps {
     departments: Array<{
@@ -20,49 +19,42 @@ interface DepartmentIndexProps {
 
 export default function DepartmentIndex({ departments }: DepartmentIndexProps) {
     return (
-        <AppLayout>
-            <Head title="Departments" />
-            <div className="flex flex-col items-center bg-background min-h-screen pt-10">
-                <div className="w-full max-w-none px-4 md:px-12">
-                    <div className="mb-6">
-                        <Breadcrumbs breadcrumbs={breadcrumbs} />
-                        <h2 className="text-2xl font-semibold mb-2 text-left">Departments</h2>
-                        <hr className="mb-6" />
-                    </div>
-                    <div className="flex justify-end mb-4">
-                        <Link href="/departments/create">
-                            <Button>Add Department</Button>
-                        </Link>
-                    </div>
-                    <div className="overflow-x-auto rounded-xl border">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Head Teacher</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {departments?.map((department) => (
-                                    <tr key={department.id}>
-                                        <td className="px-6 py-4 whitespace-nowrap">{department.id}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{department.name}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{department.head_teacher_id ?? '-'}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{department.description}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <Link href={`/departments/${department.id}/edit`} className="mr-2 text-blue-600 hover:underline">Edit</Link>
-                                            <Link href={`/departments/${department.id}`} className="text-blue-600 hover:underline">View</Link>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        <AppLayout breadcrumbs={breadcrumbs} title="Departments" btnText="Add Department" btnLink="/departments/create">
+            <div className="p- overflow-x-auto rounded-xl border">
+                <Table>
+                    <TableHeader className="bg-gray-100">
+                        <TableRow className="font-bold">
+                            <TableHead className="w-[100px] px-3 text-gray-500">ID</TableHead>
+                            <TableHead className="w-[200px] px-3 text-gray-500">Name</TableHead>
+                            <TableHead className="w-[300px] px-3 text-gray-500">Head Teacher</TableHead>
+                            <TableHead className="text-gray-500">Description</TableHead>
+                            <TableHead className="text-right text-gray-500"></TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {departments?.map((department) => (
+                            <TableRow key={department.id}>
+                                <TableCell className="py-3 whitespace-nowrap">{department.id}</TableCell>
+                                <TableCell className="py-3 whitespace-nowrap">{department.name}</TableCell>
+                                <TableCell className="py-3 whitespace-nowrap">{department.head_teacher_id ?? '-'}</TableCell>
+                                <TableCell className="py-3 whitespace-nowrap">{department.description}</TableCell>
+                                <TableCell className="py-3 text-right whitespace-nowrap">
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger className="pr-3">
+                                            <EllipsisVertical />
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuItem asChild>
+                                                <Link href={`/departments/${department.id}/edit`}>Edit</Link>
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
             </div>
         </AppLayout>
     );
-} 
+}
