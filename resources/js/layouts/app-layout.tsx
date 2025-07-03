@@ -16,17 +16,17 @@ interface AppLayoutProps {
 export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => (
     <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
         <CommonPageLayout
-                header={
-                <div className='flex justify-between pb-2'>
-                    <h2 className="text-2xl font-semibold text-left">{props.title}</h2>
+            header={
+                <div className="flex justify-between">
+                    <h2 className="pt-1 text-left text-lg font-semibold">{props.title}</h2>
                     {props.btnText && props.btnLink && (
                         <Link href={props.btnLink}>
-                        <Button>{props.btnText}</Button>
+                            <Button>{props.btnText}</Button>
                         </Link>
                     )}
                 </div>
-                }
-            >
+            }
+        >
             {children}
         </CommonPageLayout>
     </AppLayoutTemplate>

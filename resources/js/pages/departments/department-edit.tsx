@@ -33,13 +33,7 @@ export default function DepartmentEdit({ department, teachers }: DepartmentEditP
     };
 
     return (
-        <AppLayout
-            breadcrumbs={[
-                { title: 'Departments', href: '/departments' },
-                { title: 'Add Department', href: '/departments/create' },
-            ]}
-            title="Edit Department"
-        >
+        <AppLayout breadcrumbs={breadcrumbs} title="Edit Department">
             <form className="flex w-full flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-6 md:grid-cols-2">
                     {/* Name */}

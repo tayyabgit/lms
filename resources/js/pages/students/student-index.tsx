@@ -12,7 +12,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function StudentIndex() {
     return (
-        <AppLayout breadcrumbs={breadcrumbs} title="Add Student" btnText="Add Student" btnLink="/students/create">
+        <AppLayout breadcrumbs={breadcrumbs} title="Students" btnText="Add Student" btnLink="/students/create">
             <TableWrapper>
                 <Table>
                     <TableHeader className="bg-gray-100">
