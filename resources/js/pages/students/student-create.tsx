@@ -37,15 +37,19 @@ export default function StudentCreate({ classes, users }: StudentCreateProps) {
 
     console.log(classes);
 
-    const breadcrumbs: BreadcrumbItem[] = [{ title: 'Teachers', href: '/teachers' }];
-
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('students.store'));
     };
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs} title="Add Student">
+        <AppLayout
+            breadcrumbs={[
+                { title: 'Students', href: '/students' },
+                { title: 'Add Student', href: '/students/create' },
+            ]}
+            title="Add Student"
+        >
             <form className="flex w-full flex-col gap-6" onSubmit={submit}>
                 {/* User */}
                 <div className="grid gap-6 md:grid-cols-3">
