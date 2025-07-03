@@ -1,14 +1,10 @@
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import TableWrapper from '@/components/TableWrapper';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import { Link } from '@inertiajs/react';
+import { EllipsisVertical } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Teachers', href: '/teachers' }];
 
@@ -28,9 +24,9 @@ interface TeacherIndexProps {
 export default function TeacherIndex({ teachers }: TeacherIndexProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs} title="Teachers" btnText="Add Teacher" btnLink="/teachers/create">
-            <div className="p- overflow-x-auto rounded-xl border">
+            <TableWrapper>
                 <Table>
-                    <TableHeader className="bg-gray-100">
+                    <TableHeader>
                         <TableRow className="font-bold">
                             <TableHead className="w-[100px] px-3 text-gray-500">ID</TableHead>
                             <TableHead className="w-[200px] px-3 text-gray-500">Name</TableHead>
@@ -46,19 +42,15 @@ export default function TeacherIndex({ teachers }: TeacherIndexProps) {
                                 <TableCell className="py-3 whitespace-nowrap">{teacher.user?.name}</TableCell>
                                 <TableCell className="py-3 whitespace-nowrap">{teacher.employee_code}</TableCell>
                                 <TableCell className="py-3 whitespace-nowrap">{teacher.department}</TableCell>
-                                <TableCell className="py-3 whitespace-nowrap">
-                                    {/* <Link href={`/teachers/${teacher.id}/edit`} className="mr-2 text-blue-600 hover:underline">
-                                        Edit
-                                    </Link> */}
+                                <TableCell className="py-3 text-right whitespace-nowrap">
                                     <DropdownMenu>
-                                        <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+                                        <DropdownMenuTrigger className="pr-3">
+                                            <EllipsisVertical />
+                                        </DropdownMenuTrigger>
                                         <DropdownMenuContent>
-                                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuItem>Profile</DropdownMenuItem>
-                                            <DropdownMenuItem>Billing</DropdownMenuItem>
-                                            <DropdownMenuItem>Team</DropdownMenuItem>
-                                            <DropdownMenuItem>Subscription</DropdownMenuItem>
+                                            <DropdownMenuItem asChild>
+                                                <Link href={`/teachers/${teacher.id}/edit`}>Edit</Link>
+                                            </DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </TableCell>
@@ -66,7 +58,7 @@ export default function TeacherIndex({ teachers }: TeacherIndexProps) {
                         ))}
                     </TableBody>
                 </Table>
-            </div>
+            </TableWrapper>
         </AppLayout>
     );
 }

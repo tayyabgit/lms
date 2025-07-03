@@ -2,8 +2,11 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { useForm } from '@inertiajs/react';
+import { DatePicker } from '../../components/DatePicker';
 
 type TeacherForm = {
     name: string;
@@ -20,6 +23,7 @@ type TeacherForm = {
 };
 
 export default function TeacherCreate() {
+    // Get today's date in YYYY-MM-DD format
     const { data, setData, post, processing, errors } = useForm<TeacherForm>({
         name: '',
         email: '',
@@ -133,11 +137,10 @@ export default function TeacherCreate() {
                     {/* Joining Date */}
                     <div className="grid gap-2">
                         <Label htmlFor="joining_date">Joining Date</Label>
-                        <Input
-                            id="joining_date"
-                            type="date"
+                        <DatePicker
                             value={data.joining_date}
-                            onChange={(e) => setData('joining_date', e.target.value)}
+                            onChange={(val) => setData('joining_date', val)}
+                            defaultToToday={true}
                             disabled={processing}
                         />
                         <InputError message={errors.joining_date} />
@@ -145,18 +148,16 @@ export default function TeacherCreate() {
                     {/* Gender */}
                     <div className="grid gap-2">
                         <Label htmlFor="gender">Gender</Label>
-                        <select
-                            id="gender"
-                            value={data.gender}
-                            onChange={(e) => setData('gender', e.target.value)}
-                            disabled={processing}
-                            className="rounded-lg border-gray-300 px-3 py-2 shadow-sm focus:ring-2 focus:ring-blue-400"
-                        >
-                            <option value="">Select gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
+                        <Select value={data.gender} onValueChange={(value) => setData('gender', value)} disabled={processing}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select gender" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="male">Male</SelectItem>
+                                <SelectItem value="female">Female</SelectItem>
+                                <SelectItem value="other">Other</SelectItem>
+                            </SelectContent>
+                        </Select>
                         <InputError message={errors.gender} />
                     </div>
                     {/* Contact Number */}
@@ -175,23 +176,14 @@ export default function TeacherCreate() {
                     {/* Address */}
                     <div className="grid gap-2 md:col-span-3">
                         <Label htmlFor="address">Address</Label>
-                        <textarea
-                            id="address"
-                            rows={15}
-                            className="border-input file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                            onChange={(e) => setData('address', e.target.value)}
-                            disabled={processing}
-                            placeholder="Enter address"
-                        >
-                            {data.address}
-                        </textarea>
+                        <Textarea onChange={(e) => setData('address', e.target.value)} disabled={processing} placeholder="Enter address"></Textarea>
                         <InputError message={errors.address} />
                     </div>
                 </div>
                 {/* Hidden Role ID */}
                 <input type="hidden" name="role_id" value={data.role_id} />
                 <div className="md:col-span-2">
-                    <Button type="submit" className="mt-2 w-full" disabled={processing}>
+                    <Button type="submit" className="mt-2" disabled={processing}>
                         {processing ? 'Saving...' : 'Add Teacher'}
                     </Button>
                 </div>

@@ -1,3 +1,4 @@
+import TableWrapper from '@/components/TableWrapper';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
@@ -20,7 +21,7 @@ interface DepartmentIndexProps {
 export default function DepartmentIndex({ departments }: DepartmentIndexProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs} title="Departments" btnText="Add Department" btnLink="/departments/create">
-            <div className="p- overflow-x-auto rounded-xl border">
+            <TableWrapper>
                 <Table>
                     <TableHeader className="bg-gray-100">
                         <TableRow className="font-bold">
@@ -54,7 +55,7 @@ export default function DepartmentIndex({ departments }: DepartmentIndexProps) {
                         ))}
                     </TableBody>
                 </Table>
-            </div>
+            </TableWrapper>
         </AppLayout>
     );
 }

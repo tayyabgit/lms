@@ -30,7 +30,6 @@ class TeacherController extends Controller
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|confirmed|min:8',
             'role_id' => 'required|integer|exists:roles,id',
             'employee_code' => 'required|string|max:50|unique:teachers,employee_code',
             'qualification' => 'required|string|max:255',
@@ -45,7 +44,6 @@ class TeacherController extends Controller
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
             'role_id' => $validated['role_id'],
         ]);
         $teacherData = $validated;
@@ -55,12 +53,12 @@ class TeacherController extends Controller
         return redirect()->route('teachers.index')->with('success', 'Teacher created successfully.');
     }
 
-    public function show(Teacher $teacher)
-    {
-        return Inertia::render('teachers/teacher-show', [
-            'teacher' => $teacher->load('user'),
-        ]);
-    }
+    // public function show(Teacher $teacher)
+    // {
+    //     return Inertia::render('teachers/teacher-show', [
+    //         'teacher' => $teacher->load('user'),
+    //     ]);
+    // }
 
     public function edit(Teacher $teacher)
     {

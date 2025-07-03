@@ -1,3 +1,4 @@
+import TableWrapper from '@/components/TableWrapper';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
@@ -12,7 +13,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function StudentIndex() {
     return (
         <AppLayout breadcrumbs={breadcrumbs} title="Add Student" btnText="Add Student" btnLink="/students/create">
-            <div className="p- overflow-x-auto rounded-xl border">
+            <TableWrapper>
                 <Table>
                     <TableHeader className="bg-gray-100">
                         <TableRow className="font-bold">
@@ -43,7 +44,7 @@ export default function StudentIndex() {
                         </TableRow>
                     </TableBody>
                 </Table>
-            </div>
+            </TableWrapper>
         </AppLayout>
     );
 }

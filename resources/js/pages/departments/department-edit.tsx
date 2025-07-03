@@ -92,7 +92,7 @@ export default function DepartmentEdit({ department, teachers }: DepartmentEditP
                     </div>
                 </div>
                 <div className="md:col-span-2">
-                    <Button type="submit" className="mt-2 w-full" disabled={processing}>
+                    <Button type="submit" className="mt-2" disabled={processing}>
                         {processing ? 'Saving...' : 'Update Department'}
                     </Button>
                 </div>
