@@ -23,7 +23,7 @@ export default function DepartmentIndex({ departments }: DepartmentIndexProps) {
         <AppLayout breadcrumbs={breadcrumbs} title="Departments" btnText="Add Department" btnLink="/departments/create">
             <TableWrapper>
                 <Table>
-                    <TableHeader className="bg-gray-100">
+                    <TableHeader>
                         <TableRow className="font-bold">
                             <TableHead className="w-[100px] px-3 text-gray-500">ID</TableHead>
                             <TableHead className="w-[200px] px-3 text-gray-500">Name</TableHead>

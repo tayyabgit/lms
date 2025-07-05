@@ -15,7 +15,7 @@ export default function StudentIndex() {
         <AppLayout breadcrumbs={breadcrumbs} title="Students" btnText="Add Student" btnLink="/students/create">
             <TableWrapper>
                 <Table>
-                    <TableHeader className="bg-gray-100">
+                    <TableHeader>
                         <TableRow className="font-bold">
                             <TableHead className="w-[100px] px-3 text-gray-500">ID</TableHead>
                             <TableHead className="w-[200px] px-3 text-gray-500">Name</TableHead>
