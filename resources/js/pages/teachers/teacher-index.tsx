@@ -6,21 +6,38 @@ import { type BreadcrumbItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { EllipsisVertical } from 'lucide-react';
 
+import PaginationWrapper from '@/components/PaginationWrapper';
+import { PaginationLink } from '@/components/ui/pagination';
+
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Teachers', href: '/teachers' }];
 
-interface TeacherIndexProps {
-    teachers: Array<{
-        id: number;
-        user?: { name: string; email: string };
-        employee_code: string;
-        department: string;
-        subject_specialization: string;
-        joining_date: string;
-        gender: string;
-        contact_number: string;
-        address: string;
-    }>;
+interface Teacher {
+    id: number;
+    user?: { name: string; email: string };
+    employee_code: string;
+    department: string;
+    subject_specialization: string;
+    joining_date: string;
+    gender: string;
+    contact_number: string;
+    address: string;
 }
+
+interface PaginationLink {
+    url: string | null;
+    label: string;
+    active: boolean;
+}
+
+interface TeacherIndexProps {
+    teachers: {
+        data: Teacher[];
+        links: PaginationLink[];
+        current_page: number;
+        last_page: number;
+    };
+}
+
 export default function TeacherIndex({ teachers }: TeacherIndexProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs} title="Teachers" btnText="Add Teacher" btnLink="/teachers/create">
@@ -36,7 +53,7 @@ export default function TeacherIndex({ teachers }: TeacherIndexProps) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {teachers?.map((teacher) => (
+                        {teachers.data.map((teacher) => (
                             <TableRow key={teacher.id}>
                                 <TableCell className="py-3 whitespace-nowrap">{teacher.id}</TableCell>
                                 <TableCell className="py-3 whitespace-nowrap">{teacher.user?.name}</TableCell>
@@ -59,6 +76,7 @@ export default function TeacherIndex({ teachers }: TeacherIndexProps) {
                     </TableBody>
                 </Table>
             </TableWrapper>
+            <PaginationWrapper links={teachers?.links} />
         </AppLayout>
     );
 }

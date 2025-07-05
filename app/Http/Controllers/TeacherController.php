@@ -11,7 +11,7 @@ class TeacherController extends Controller
 {
     public function index()
     {
-        $teachers = Teacher::with('user')->get();
+        $teachers = Teacher::with('user')->paginate(15);
         return Inertia::render('teachers/teacher-index', [
             'teachers' => $teachers,
         ]);
