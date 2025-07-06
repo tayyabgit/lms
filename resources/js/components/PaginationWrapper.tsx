@@ -1,5 +1,4 @@
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { Link } from '@inertiajs/react';
 
 interface PaginationLinkType {
     url: string | null;
@@ -24,13 +23,7 @@ export default function PaginationWrapper({ links }: InertiaPaginationProps) {
                     if (!link.url) {
                         return (
                             <PaginationItem key={index}>
-                                {isPrev ? (
-                                    <PaginationPrevious className="pointer-events-none opacity-50" />
-                                ) : isNext ? (
-                                    <PaginationNext className="pointer-events-none opacity-50" />
-                                ) : (
-                                    <PaginationLink className="pointer-events-none opacity-50">{link.label}</PaginationLink>
-                                )}
+                                <span className="pointer-events-none px-3 py-2 opacity-50">{link.label}</span>
                             </PaginationItem>
                         );
                     }
@@ -38,17 +31,13 @@ export default function PaginationWrapper({ links }: InertiaPaginationProps) {
                     return (
                         <PaginationItem key={index}>
                             {isPrev ? (
-                                <Link href={link.url} preserveScroll preserveState>
-                                    <PaginationPrevious />
-                                </Link>
+                                <PaginationPrevious href={link.url} size="default" />
                             ) : isNext ? (
-                                <Link href={link.url} preserveScroll preserveState>
-                                    <PaginationNext />
-                                </Link>
+                                <PaginationNext href={link.url} size="default" />
                             ) : (
-                                <Link href={link.url} preserveScroll preserveState>
-                                    <PaginationLink isActive={link.active}>{link.label}</PaginationLink>
-                                </Link>
+                                <PaginationLink href={link.url} isActive={link.active} size="icon">
+                                    {link.label}
+                                </PaginationLink>
                             )}
                         </PaginationItem>
                     );
