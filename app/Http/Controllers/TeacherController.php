@@ -9,9 +9,25 @@ use Inertia\Inertia;
 
 class TeacherController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $teachers = Teacher::with('user')->paginate(15);
+        $teachers = Teacher::query();
+
+
+        $teachers->when($request->filled('search'), function ($q) use ($request) {
+            $q->where(function ($s) use ($request) {
+                $s->whereHas('user', function ($q) use ($request) {
+                    $q->where('name', 'like', "%{$request->search}%");
+                })
+                    ->orWhere('employee_code', 'like', "%{$request->search}%")
+                    ->orWhere('department', 'like', "%{$request->search}%")
+                    ->orWhere('contact_number', 'like', "%{$request->search}%")
+                    ->orWhere('subject_specialization', 'like', "%{$request->search}%")
+                    ->orWhere('joining_date', 'like', "%{$request->search}%");
+            });
+        });
+
+        $teachers = $teachers->with('user')->paginate(15)->withQueryString();
         return Inertia::render('teachers/teacher-index', [
             'teachers' => $teachers,
         ]);
