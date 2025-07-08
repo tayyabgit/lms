@@ -4,13 +4,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Link, useForm } from '@inertiajs/react';
-import { EllipsisVertical } from 'lucide-react';
 
 import PaginationWrapper from '@/components/PaginationWrapper';
+import { Anchor } from '@/components/ui/anchor';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PaginationLink } from '@/components/ui/pagination';
+import { Ellipsis } from 'lucide-react';
 
 interface Teacher {
     id: number;
@@ -78,6 +79,9 @@ export default function TeacherIndex({ teachers }: TeacherIndexProps) {
                         <Button type="submit" className="mt-2" disabled={processing}>
                             {processing ? 'Saving...' : 'Add Teacher'}
                         </Button>
+                        <Anchor href={route('teachers.index')} variant="ghost" className="mt-2 ml-2" disabled={processing}>
+                            Reset
+                        </Anchor>
                     </div>
                 </form>
             </div>
@@ -98,7 +102,7 @@ export default function TeacherIndex({ teachers }: TeacherIndexProps) {
                     <TableBody>
                         {teachers.data.map((teacher) => (
                             <TableRow key={teacher.id}>
-                                <TableCell className="py-3 whitespace-nowrap">{teacher.id}</TableCell>
+                                <TableCell className="py-3 text-center whitespace-nowrap">{teacher.id}</TableCell>
                                 <TableCell className="py-3 whitespace-nowrap">{teacher.user?.name}</TableCell>
                                 <TableCell className="py-3 whitespace-nowrap">{teacher.employee_code}</TableCell>
                                 <TableCell className="py-3 whitespace-nowrap">{teacher.department}</TableCell>
@@ -108,7 +112,9 @@ export default function TeacherIndex({ teachers }: TeacherIndexProps) {
                                 <TableCell className="py-3 text-right whitespace-nowrap">
                                     <DropdownMenu>
                                         <DropdownMenuTrigger className="pr-3">
-                                            <EllipsisVertical />
+                                            <Anchor href="#" variant="ghost">
+                                                <Ellipsis />
+                                            </Anchor>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent>
                                             <DropdownMenuItem asChild>

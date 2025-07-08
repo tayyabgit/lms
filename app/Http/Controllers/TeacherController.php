@@ -69,13 +69,6 @@ class TeacherController extends Controller
         return redirect()->route('teachers.index')->with('success', 'Teacher created successfully.');
     }
 
-    // public function show(Teacher $teacher)
-    // {
-    //     return Inertia::render('teachers/teacher-show', [
-    //         'teacher' => $teacher->load('user'),
-    //     ]);
-    // }
-
     public function edit(Teacher $teacher)
     {
         return Inertia::render('teachers/teacher-edit', [
