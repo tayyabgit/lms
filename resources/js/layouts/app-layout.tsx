@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
+import { CircleAlert, CircleCheck } from 'lucide-react';
 import { useEffect, type ReactNode } from 'react';
 import { toast } from 'sonner';
 interface AppLayoutProps {
@@ -21,10 +22,14 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
 
     useEffect(() => {
         if (flash?.success) {
-            toast.success(flash.success);
+            toast.success(flash.success, {
+                icon: <CircleCheck className="pr-1 text-green-500" />,
+            });
         }
         if (flash?.error) {
-            toast.error(flash.error);
+            toast.error(flash.error, {
+                icon: <CircleAlert className="pr-1 text-red-500" />,
+            });
         }
     }, [flash]);
 

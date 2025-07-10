@@ -8,6 +8,7 @@ import { Link, useForm } from '@inertiajs/react';
 import PaginationWrapper from '@/components/PaginationWrapper';
 import { Anchor } from '@/components/ui/anchor';
 import { Button } from '@/components/ui/button';
+import FilterWrapper from '@/components/ui/FilterWrapper';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PaginationLink } from '@/components/ui/pagination';
@@ -58,7 +59,7 @@ export default function TeacherIndex({ teachers }: TeacherIndexProps) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs} title="Teachers" btnText="Add Teacher" btnLink="/teachers/create">
-            <div className="mt-2 mb-6">
+            <FilterWrapper>
                 <form action="" method="get" onSubmit={submit}>
                     <div className="grid gap-6 md:grid-cols-1">
                         <div className="grid gap-2">
@@ -84,7 +85,7 @@ export default function TeacherIndex({ teachers }: TeacherIndexProps) {
                         </Anchor>
                     </div>
                 </form>
-            </div>
+            </FilterWrapper>
             <TableWrapper>
                 <Table>
                     <TableHeader>

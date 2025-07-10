@@ -11,7 +11,8 @@ class DepartmentController extends Controller
 {
     public function index()
     {
-        $departments = Department::with('headTeacher')->get();
+        $departments = Department::with('headTeacher.user')->get();
+        // dd($departments->toArray());
         return Inertia::render('departments/department-index', [
             'departments' => $departments,
         ]);
@@ -19,7 +20,7 @@ class DepartmentController extends Controller
 
     public function create()
     {
-        $teachers = Teacher::all(['id', 'user_id']);
+        $teachers = Teacher::with('user')->get(['id', 'user_id']);
         return Inertia::render('departments/department-create', [
             'teachers' => $teachers,
         ]);
@@ -47,7 +48,7 @@ class DepartmentController extends Controller
 
     public function edit(Department $department)
     {
-        $teachers = Teacher::all(['id', 'user_id']);
+        $teachers = Teacher::with('user')->get(['id', 'user_id']);
         $department->load('headTeacher');
         return Inertia::render('departments/department-edit', [
             'department' => $department,
@@ -62,6 +63,7 @@ class DepartmentController extends Controller
             'head_teacher_id' => 'nullable|exists:teachers,id',
             'description' => 'nullable|string|max:1000',
         ];
+        // dd($request->all());
         $validated = $request->validate($rules);
         $department->update($validated);
         return redirect()->route('departments.index')->with('success', 'Department updated successfully.');

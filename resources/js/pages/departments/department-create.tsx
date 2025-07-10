@@ -2,9 +2,10 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { useForm } from '@inertiajs/react';
-import { useMemo } from 'react';
 
 interface Teacher {
     id: number;
@@ -23,19 +24,11 @@ export default function DepartmentCreate({ teachers }: DepartmentCreateProps) {
         description: '',
     });
 
-    const teacherOptions = useMemo(
-        () =>
-            teachers?.map((teacher) => ({
-                value: teacher.id,
-                label: teacher.user?.name ? `${teacher.user.name} (${teacher.user.email})` : `Teacher #${teacher.id}`,
-            })) || [],
-        [teachers],
-    );
-
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('departments.store'));
     };
+    console.log(data);
 
     return (
         <AppLayout
@@ -65,28 +58,26 @@ export default function DepartmentCreate({ teachers }: DepartmentCreateProps) {
                     {/* Head Teacher */}
                     <div className="grid gap-2">
                         <Label htmlFor="head_teacher_id">Head Teacher</Label>
-                        <select
-                            id="head_teacher_id"
-                            value={data.head_teacher_id}
-                            onChange={(e) => setData('head_teacher_id', e.target.value)}
-                            disabled={processing}
-                            className="rounded-lg border-gray-300 px-3 py-2 shadow-sm focus:ring-2 focus:ring-blue-400"
-                        >
-                            <option value="">Select head teacher</option>
-                            {teacherOptions.map((option) => (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
+                        <Select value={data.head_teacher_id} onValueChange={(value) => setData('head_teacher_id', value)} disabled={processing}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select head teacher" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {teachers.map((teacher) => (
+                                    <SelectItem key={teacher.id} value={String(teacher.id)}>
+                                        {teacher.user?.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                         <InputError message={errors.head_teacher_id} />
                     </div>
                     {/* Description */}
                     <div className="grid gap-2 md:col-span-2">
                         <Label htmlFor="description">Description</Label>
-                        <Input
+
+                        <Textarea
                             id="description"
-                            type="text"
                             value={data.description}
                             onChange={(e) => setData('description', e.target.value)}
                             disabled={processing}
