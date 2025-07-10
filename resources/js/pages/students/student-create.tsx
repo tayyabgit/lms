@@ -1,3 +1,4 @@
+import { DatePicker } from '@/components/DatePicker';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -103,11 +104,17 @@ export default function StudentCreate({ classes, users }: StudentCreateProps) {
                     {/* Admission Date */}
                     <div className="grid gap-2">
                         <Label htmlFor="admission_date">Admission Date</Label>
-                        <Input
+                        {/* <Input
                             id="admission_date"
                             type="date"
                             value={data.admission_date}
                             onChange={(e) => setData('admission_date', e.target.value)}
+                            disabled={processing}
+                        /> */}
+                        <DatePicker
+                            value={data.admission_date}
+                            onChange={(val) => setData('admission_date', val)}
+                            defaultToToday={true}
                             disabled={processing}
                         />
                         <InputError message={errors.admission_date} />
@@ -130,7 +137,7 @@ export default function StudentCreate({ classes, users }: StudentCreateProps) {
                     {/* Date of Birth */}
                     <div className="grid gap-2">
                         <Label htmlFor="dob">Date of Birth</Label>
-                        <Input id="dob" type="date" value={data.dob} onChange={(e) => setData('dob', e.target.value)} disabled={processing} />
+                        <DatePicker value={data.dob} onChange={(val) => setData('dob', val)} defaultToToday={true} disabled={processing} />
                         <InputError message={errors.dob} />
                     </div>
                     {/* Address */}

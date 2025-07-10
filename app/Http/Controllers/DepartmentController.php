@@ -9,9 +9,17 @@ use Inertia\Inertia;
 
 class DepartmentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $departments = Department::with('headTeacher.user')->get();
+        $departments = Department::query();
+
+        $departments->when($request->filled('search'), function ($q) use ($request) {
+            $q->whereHas('headTeacher.user', function ($q) use ($request) {
+                $q->where('name', 'like', "%{$request->search}%");
+            })->orWhere('name', 'like', "%{$request->search}%");
+        });
+
+        $departments = $departments->with('headTeacher.user')->get();
         // dd($departments->toArray());
         return Inertia::render('departments/department-index', [
             'departments' => $departments,

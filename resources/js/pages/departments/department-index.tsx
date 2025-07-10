@@ -58,9 +58,9 @@ export default function DepartmentIndex({ departments }: DepartmentIndexProps) {
                     </div>
                     <div className="mt-2 md:col-span-2">
                         <Button type="submit" className="mt-2" disabled={processing}>
-                            {processing ? 'Saving...' : 'Add Teacher'}
+                            Search
                         </Button>
-                        <Anchor href={route('teachers.index')} variant="ghost" className="mt-2 ml-2" disabled={processing}>
+                        <Anchor href={route('departments.index')} variant="ghost" className="mt-2 ml-2" disabled={processing}>
                             Reset
                         </Anchor>
                     </div>
