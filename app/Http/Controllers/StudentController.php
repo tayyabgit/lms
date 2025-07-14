@@ -32,11 +32,8 @@ class StudentController extends Controller
     public function create()
     {
         $classes = SchoolClass::select('id', 'name', 'section')->get();
-        // Optionally, you may want to select users who are not yet students
-        $users = User::select('id', 'name', 'email')->get();
         return Inertia::render('students/student-create', [
-            'classes' => $classes,
-            'users' => $users
+            'classes' => $classes
         ]);
     }
 
@@ -45,17 +42,30 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id|unique:students,user_id',
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|confirmed|min:8',
             'roll_number' => 'required|string|unique:students,roll_number',
-            'class_id' => 'required|exists:school_classes,id',
+            'class_id' => 'required',
             'admission_date' => 'nullable|date',
             'gender' => 'nullable|in:male,female,other',
             'dob' => 'nullable|date',
             'address' => 'nullable|string',
             'contact_number' => 'nullable|string',
+        ];
+        $validated = $request->validate($rules);
+        $roleId = \App\Models\Role::where('name', 'student')->value('id');
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password']),
+            'role_id' => $roleId,
         ]);
-        $student = Student::create($validated);
+        $studentData = $validated;
+        $studentData['user_id'] = $user->id;
+        unset($studentData['name'], $studentData['email'], $studentData['password'], $studentData['password_confirmation']);
+        Student::create($studentData);
         return redirect()->route('students.index')->with('success', 'Student created successfully.');
     }
 
@@ -75,13 +85,11 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        $student = Student::findOrFail($id);
+        $student = Student::with('user')->findOrFail($id);
         $classes = SchoolClass::select('id', 'name', 'section')->get();
-        $users = User::select('id', 'name', 'email')->get();
         return Inertia::render('students/student-edit', [
             'student' => $student,
-            'classes' => $classes,
-            'users' => $users
+            'classes' => $classes
         ]);
     }
 
@@ -90,18 +98,30 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $student = Student::findOrFail($id);
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id|unique:students,user_id,' . $student->id,
+        $student = Student::with('user')->findOrFail($id);
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $student->user_id,
+            'password' => 'nullable|string|confirmed|min:8',
             'roll_number' => 'required|string|unique:students,roll_number,' . $student->id,
-            'class_id' => 'required|exists:school_classes,id',
+            'class_id' => 'required',
             'admission_date' => 'nullable|date',
             'gender' => 'nullable|in:male,female,other',
             'dob' => 'nullable|date',
             'address' => 'nullable|string',
             'contact_number' => 'nullable|string',
-        ]);
-        $student->update($validated);
+        ];
+        $validated = $request->validate($rules);
+        $user = $student->user;
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        if (!empty($validated['password'])) {
+            $user->password = bcrypt($validated['password']);
+        }
+        $user->save();
+        $studentData = $validated;
+        unset($studentData['name'], $studentData['email'], $studentData['password'], $studentData['password_confirmation']);
+        $student->update($studentData);
         return redirect()->route('students.index')->with('success', 'Student updated successfully.');
     }
 

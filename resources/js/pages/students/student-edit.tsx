@@ -8,50 +8,50 @@ import AppLayout from '@/layouts/app-layout';
 import { useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
-interface StudentCreateProps {
+interface StudentEditProps {
+    student: {
+        id: number;
+        user: {
+            id: number;
+            name: string;
+            email: string;
+        };
+        roll_number: string;
+        class_id: string;
+        admission_date: string;
+        gender: string;
+        dob: string;
+        address: string;
+        contact_number: string;
+    };
     classes: { id: number; name: string; section?: string }[];
-    users: { id: number; name: string; email: string }[];
 }
 
-type StudentForm = {
-    name: string;
-    email: string;
-    roll_number: string;
-    class_id: string;
-    admission_date: string;
-    gender: string;
-    dob: string;
-    address: string;
-    contact_number: string;
-};
-
-export default function StudentCreate({ classes }: StudentCreateProps) {
-    const { data, setData, post, processing, errors } = useForm<StudentForm>({
-        name: '',
-        email: '',
-        roll_number: '',
-        class_id: '',
-        admission_date: '',
-        gender: '',
-        dob: '',
-        address: '',
-        contact_number: '',
+export default function StudentEdit({ student, classes }: StudentEditProps) {
+    const { data, setData, put, processing, errors } = useForm({
+        name: student.user.name || '',
+        email: student.user.email || '',
+        roll_number: student.roll_number || '',
+        class_id: String(student.class_id || ''),
+        admission_date: student.admission_date || '',
+        gender: student.gender || '',
+        dob: student.dob || '',
+        address: student.address || '',
+        contact_number: student.contact_number || '',
     });
-
-    console.log(classes);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route('students.store'));
+        put(route('students.update', student.id));
     };
 
     return (
         <AppLayout
             breadcrumbs={[
                 { title: 'Students', href: '/students' },
-                { title: 'Add Student', href: '/students/create' },
+                { title: 'Edit Student', href: `/students/${student.id}/edit` },
             ]}
-            title="Add Student"
+            title="Edit Student"
         >
             <form className="flex w-full flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-6 md:grid-cols-3">
@@ -102,12 +102,13 @@ export default function StudentCreate({ classes }: StudentCreateProps) {
                                 <SelectValue placeholder="Select class" />
                             </SelectTrigger>
                             <SelectContent>
-                                {classes.map((cls) => (
+                                {/* {classes.map((cls) => (
                                     <SelectItem key={cls.id} value={String(cls.id)}>
                                         {cls.name}
                                         {cls.section ? ` (${cls.section})` : ''}
                                     </SelectItem>
-                                ))}
+                                ))} */}
+                                <SelectItem value="1">class1</SelectItem>
                             </SelectContent>
                         </Select>
                         <InputError message={errors.class_id} />
@@ -118,7 +119,7 @@ export default function StudentCreate({ classes }: StudentCreateProps) {
                         <DatePicker
                             value={data.admission_date}
                             onChange={(val) => setData('admission_date', val)}
-                            defaultToToday={true}
+                            defaultToToday={false}
                             disabled={processing}
                         />
                         <InputError message={errors.admission_date} />
@@ -144,7 +145,7 @@ export default function StudentCreate({ classes }: StudentCreateProps) {
                         <DatePicker
                             value={data.dob}
                             onChange={(val) => setData('dob', val)}
-                            defaultToToday={true}
+                            defaultToToday={false}
                             disabled={processing}
                             maxDate={new Date()}
                         />
@@ -178,7 +179,7 @@ export default function StudentCreate({ classes }: StudentCreateProps) {
                     </div>
                 </div>
                 <Button type="submit" className="w-40" disabled={processing}>
-                    {processing ? 'Saving...' : 'Add Student'}
+                    {processing ? 'Updating...' : 'Update Student'}
                 </Button>
             </form>
         </AppLayout>

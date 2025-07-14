@@ -1,43 +1,47 @@
-import { LayoutGrid, Users, Shapes, UsersRound, Folder, BookOpen, School } from 'lucide-react';
+import { LayoutGrid, Users, Shapes, UsersRound, Folder, BookOpen, LucideIcon } from 'lucide-react';
 import { type NavItem } from '@/types';
 
-export const mainNavItems: NavItem[] = [
+export const mainNavItems: (NavItem & { url: string; icon: LucideIcon; subUrl?: string })[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        mainHref: '/dashboard',
+        url: '/dashboard',
         icon: LayoutGrid,
     },
     {
         title: 'Teachers',
-        href: '/teachers',
+        mainHref: '/teachers',
+        url: '/teachers',
         icon: Users,
+        subUrl: '/teachers/create',
     },
     {
         title: 'Departments',
-        href: '/departments',
+        mainHref: '/departments',
+        url: '/departments',
         icon: Shapes,
-    },
-    {
-        title: 'Classes',
-        href: '/classes',
-        icon: School,
+        subUrl:'departments/create'
     },
     {
         title: 'Students',
-        href: '/students',
+        mainHref: '/students',
+        url: '/students',
         icon: UsersRound,
+        subUrl: '/students/create',
     },
 ];
 
-export const footerNavItems: NavItem[] = [
+export const footerNavItems: (NavItem & { url?: string; icon: LucideIcon })[] = [
     {
         title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
+        mainHref: 'https://github.com/laravel/react-starter-kit',
+        url: 'https://github.com/laravel/react-starter-kit',
         icon: Folder,
     },
     {
         title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
+        mainHref: 'https://laravel.com/docs/starter-kits#react',
+        url: 'https://laravel.com/docs/starter-kits#react',
         icon: BookOpen,
     },
 ]; 

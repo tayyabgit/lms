@@ -47,12 +47,14 @@ export function DatePicker({
     format = 'YYYY-MM-DD',
     defaultToToday = false,
     disabled = false,
+    maxDate,
 }: {
     value?: string;
     onChange?: (value: string) => void;
     format?: string;
     defaultToToday?: boolean;
     disabled?: boolean;
+    maxDate?: Date;
 }) {
     const [open, setOpen] = React.useState(false);
     const controlled = value !== undefined && onChange !== undefined;
@@ -132,6 +134,7 @@ export function DatePicker({
                             month={month}
                             onMonthChange={setMonth}
                             onSelect={handleSelect}
+                            {...(maxDate ? { disabled: { after: maxDate } } : {})}
                         />
                     </PopoverContent>
                 </Popover>
