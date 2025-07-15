@@ -70,17 +70,6 @@ class StudentController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $student = Student::with(['user', 'class'])->findOrFail($id);
-        return Inertia::render('students/student-show', [
-            'student' => $student
-        ]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
