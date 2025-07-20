@@ -14,7 +14,9 @@ interface StudentCreateProps {
 }
 
 type StudentForm = {
-    name: string;
+    firstname: string;
+    middlename: string;
+    lastname: string;
     email: string;
     roll_number: string;
     class_id: string;
@@ -27,7 +29,9 @@ type StudentForm = {
 
 export default function StudentCreate({ classes }: StudentCreateProps) {
     const { data, setData, post, processing, errors } = useForm<StudentForm>({
-        name: '',
+        firstname: '',
+        middlename: '',
+        lastname: '',
         email: '',
         roll_number: '',
         class_id: '',
@@ -55,18 +59,44 @@ export default function StudentCreate({ classes }: StudentCreateProps) {
         >
             <form className="flex w-full flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-6 md:grid-cols-3">
-                    {/* Name */}
+                    {/* First Name */}
                     <div className="grid gap-2">
-                        <Label htmlFor="name">Name</Label>
+                        <Label htmlFor="firstname">First Name</Label>
                         <Input
-                            id="name"
+                            id="firstname"
                             type="text"
-                            value={data.name}
-                            onChange={(e) => setData('name', e.target.value)}
+                            value={data.firstname}
+                            onChange={(e) => setData('firstname', e.target.value)}
                             disabled={processing}
-                            placeholder="Enter name"
+                            placeholder="Enter first name"
                         />
-                        <InputError message={errors.name} />
+                        <InputError message={errors.firstname} />
+                    </div>
+                    {/* Middle Name */}
+                    <div className="grid gap-2">
+                        <Label htmlFor="middlename">Middle Name</Label>
+                        <Input
+                            id="middlename"
+                            type="text"
+                            value={data.middlename}
+                            onChange={(e) => setData('middlename', e.target.value)}
+                            disabled={processing}
+                            placeholder="Enter middle name (optional)"
+                        />
+                        <InputError message={errors.middlename} />
+                    </div>
+                    {/* Last Name */}
+                    <div className="grid gap-2">
+                        <Label htmlFor="lastname">Last Name</Label>
+                        <Input
+                            id="lastname"
+                            type="text"
+                            value={data.lastname}
+                            onChange={(e) => setData('lastname', e.target.value)}
+                            disabled={processing}
+                            placeholder="Enter last name"
+                        />
+                        <InputError message={errors.lastname} />
                     </div>
                     {/* Email */}
                     <div className="grid gap-2">
@@ -120,6 +150,7 @@ export default function StudentCreate({ classes }: StudentCreateProps) {
                             onChange={(val) => setData('admission_date', val)}
                             defaultToToday={true}
                             disabled={processing}
+                            maxDate={new Date()}
                         />
                         <InputError message={errors.admission_date} />
                     </div>
@@ -144,7 +175,7 @@ export default function StudentCreate({ classes }: StudentCreateProps) {
                         <DatePicker
                             value={data.dob}
                             onChange={(val) => setData('dob', val)}
-                            defaultToToday={true}
+                            defaultToToday={false}
                             disabled={processing}
                             maxDate={new Date()}
                         />

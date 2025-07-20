@@ -43,7 +43,9 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'middlename' => 'nullable|string|max:255',
+            'lastname' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|confirmed|min:8',
             'roll_number' => 'required|string|unique:students,roll_number',
@@ -57,14 +59,14 @@ class StudentController extends Controller
         $validated = $request->validate($rules);
         $roleId = \App\Models\Role::where('name', 'student')->value('id');
         $user = User::create([
-            'name' => $validated['name'],
+            'name' => trim($validated['firstname'] . ' ' . ($validated['middlename'] ?? '') . ' ' . $validated['lastname']),
             'email' => $validated['email'],
             'password' => bcrypt($validated['password']),
             'role_id' => $roleId,
         ]);
         $studentData = $validated;
         $studentData['user_id'] = $user->id;
-        unset($studentData['name'], $studentData['email'], $studentData['password'], $studentData['password_confirmation']);
+        unset($studentData['email'], $studentData['password'], $studentData['password_confirmation']);
         Student::create($studentData);
         return redirect()->route('students.index')->with('success', 'Student created successfully.');
     }
@@ -89,7 +91,9 @@ class StudentController extends Controller
     {
         $student = Student::with('user')->findOrFail($id);
         $rules = [
-            'name' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'middlename' => 'nullable|string|max:255',
+            'lastname' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $student->user_id,
             'password' => 'nullable|string|confirmed|min:8',
             'roll_number' => 'required|string|unique:students,roll_number,' . $student->id,
@@ -102,14 +106,14 @@ class StudentController extends Controller
         ];
         $validated = $request->validate($rules);
         $user = $student->user;
-        $user->name = $validated['name'];
+        $user->name = trim($validated['firstname'] . ' ' . ($validated['middlename'] ?? '') . ' ' . $validated['lastname']);
         $user->email = $validated['email'];
         if (!empty($validated['password'])) {
             $user->password = bcrypt($validated['password']);
         }
         $user->save();
         $studentData = $validated;
-        unset($studentData['name'], $studentData['email'], $studentData['password'], $studentData['password_confirmation']);
+        unset($studentData['email'], $studentData['password'], $studentData['password_confirmation']);
         $student->update($studentData);
         return redirect()->route('students.index')->with('success', 'Student updated successfully.');
     }

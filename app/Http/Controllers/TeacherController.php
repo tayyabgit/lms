@@ -44,7 +44,9 @@ class TeacherController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'middlename' => 'string|max:255',
+            'lastname' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'role_id' => 'required|integer|exists:roles,id',
             'employee_code' => 'required|string|max:50|unique:teachers,employee_code',
@@ -58,13 +60,12 @@ class TeacherController extends Controller
         ];
         $validated = $request->validate($rules);
         $user = User::create([
-            'name' => $validated['name'],
+            'name' => $validated['firstname'] . ' ' . $validated['middlename'] . ' ' . $validated['lastname'],
             'email' => $validated['email'],
             'role_id' => $validated['role_id'],
         ]);
         $teacherData = $validated;
         $teacherData['user_id'] = $user->id;
-        unset($teacherData['name'], $teacherData['email'], $teacherData['password'], $teacherData['password_confirmation'], $teacherData['role_id']);
         Teacher::create($teacherData);
         return redirect()->route('teachers.index')->with('success', 'Teacher created successfully.');
     }
@@ -79,7 +80,9 @@ class TeacherController extends Controller
     public function update(Request $request, Teacher $teacher)
     {
         $rules = [
-            'name' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'middlename' => 'string|max:255',
+            'lastname' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $teacher->user_id,
             'password' => 'nullable|string|confirmed|min:8',
             'role_id' => 'required|integer|exists:roles,id',
@@ -94,7 +97,7 @@ class TeacherController extends Controller
         ];
         $validated = $request->validate($rules);
         $user = $teacher->user;
-        $user->name = $validated['name'];
+        $user->name = $validated['firstname'] . ' ' . $validated['middlename'] . ' ' . $validated['lastname'];
         $user->email = $validated['email'];
         $user->role_id = $validated['role_id'];
         if (!empty($validated['password'])) {
@@ -102,7 +105,6 @@ class TeacherController extends Controller
         }
         $user->save();
         $teacherData = $validated;
-        unset($teacherData['name'], $teacherData['email'], $teacherData['password'], $teacherData['password_confirmation'], $teacherData['role_id']);
         $teacher->update($teacherData);
         return redirect()->route('teachers.index')->with('success', 'Teacher updated successfully.');
     }

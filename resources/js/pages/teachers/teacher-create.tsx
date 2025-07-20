@@ -9,7 +9,9 @@ import { useForm } from '@inertiajs/react';
 import { DatePicker } from '../../components/DatePicker';
 
 type TeacherForm = {
-    name: string;
+    firstname: string;
+    middlename: string;
+    lastname: string;
     email: string;
     role_id: string;
     employee_code: string;
@@ -23,9 +25,10 @@ type TeacherForm = {
 };
 
 export default function TeacherCreate() {
-    // Get today's date in YYYY-MM-DD format
     const { data, setData, post, processing, errors } = useForm<TeacherForm>({
-        name: '',
+        firstname: '',
+        middlename: '',
+        lastname: '',
         email: '',
         role_id: '2',
         employee_code: '',
@@ -53,20 +56,45 @@ export default function TeacherCreate() {
         >
             <form className="flex w-full flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-6 md:grid-cols-3">
-                    {/* Name */}
+                    {/* First Name */}
                     <div className="grid gap-2">
-                        <Label htmlFor="name">Name</Label>
+                        <Label htmlFor="firstname">First Name</Label>
                         <Input
-                            id="name"
+                            id="firstname"
                             type="text"
-                            value={data.name}
-                            onChange={(e) => setData('name', e.target.value)}
+                            value={data.firstname}
+                            onChange={(e) => setData('firstname', e.target.value)}
                             disabled={processing}
-                            placeholder="Enter name"
+                            placeholder="Enter first name"
                             autoFocus
-                            autoComplete="name"
                         />
-                        <InputError message={errors.name} />
+                        <InputError message={errors.firstname} />
+                    </div>
+                    {/* Middle Name */}
+                    <div className="grid gap-2">
+                        <Label htmlFor="middlename">Middle Name</Label>
+                        <Input
+                            id="middlename"
+                            type="text"
+                            value={data.middlename}
+                            onChange={(e) => setData('middlename', e.target.value)}
+                            disabled={processing}
+                            placeholder="Enter middle name"
+                        />
+                        <InputError message={errors.middlename} />
+                    </div>
+                    {/* Last Name */}
+                    <div className="grid gap-2">
+                        <Label htmlFor="lastname">Last Name</Label>
+                        <Input
+                            id="lastname"
+                            type="text"
+                            value={data.lastname}
+                            onChange={(e) => setData('lastname', e.target.value)}
+                            disabled={processing}
+                            placeholder="Enter last name"
+                        />
+                        <InputError message={errors.lastname} />
                     </div>
                     {/* Email */}
                     <div className="grid gap-2">

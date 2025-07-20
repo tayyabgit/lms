@@ -24,12 +24,18 @@ interface StudentEditProps {
         address: string;
         contact_number: string;
     };
-    classes: { id: number; name: string; section?: string }[];
 }
 
-export default function StudentEdit({ student, classes }: StudentEditProps) {
+export default function StudentEdit({ student }: StudentEditProps) {
+    // Split the name into parts for initial values
+    const nameParts = (student.user.name || '').split(' ');
+    const firstname = nameParts[0] || '';
+    const middlename = nameParts.length === 3 ? nameParts[1] : '';
+    const lastname = nameParts.length === 3 ? nameParts[2] : nameParts[1] || '';
     const { data, setData, put, processing, errors } = useForm({
-        name: student.user.name || '',
+        firstname,
+        middlename,
+        lastname,
         email: student.user.email || '',
         roll_number: student.roll_number || '',
         class_id: String(student.class_id || ''),
@@ -55,18 +61,44 @@ export default function StudentEdit({ student, classes }: StudentEditProps) {
         >
             <form className="flex w-full flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-6 md:grid-cols-3">
-                    {/* Name */}
+                    {/* First Name */}
                     <div className="grid gap-2">
-                        <Label htmlFor="name">Name</Label>
+                        <Label htmlFor="firstname">First Name</Label>
                         <Input
-                            id="name"
+                            id="firstname"
                             type="text"
-                            value={data.name}
-                            onChange={(e) => setData('name', e.target.value)}
+                            value={data.firstname}
+                            onChange={(e) => setData('firstname', e.target.value)}
                             disabled={processing}
-                            placeholder="Enter name"
+                            placeholder="Enter first name"
                         />
-                        <InputError message={errors.name} />
+                        <InputError message={errors.firstname} />
+                    </div>
+                    {/* Middle Name */}
+                    <div className="grid gap-2">
+                        <Label htmlFor="middlename">Middle Name</Label>
+                        <Input
+                            id="middlename"
+                            type="text"
+                            value={data.middlename}
+                            onChange={(e) => setData('middlename', e.target.value)}
+                            disabled={processing}
+                            placeholder="Enter middle name (optional)"
+                        />
+                        <InputError message={errors.middlename} />
+                    </div>
+                    {/* Last Name */}
+                    <div className="grid gap-2">
+                        <Label htmlFor="lastname">Last Name</Label>
+                        <Input
+                            id="lastname"
+                            type="text"
+                            value={data.lastname}
+                            onChange={(e) => setData('lastname', e.target.value)}
+                            disabled={processing}
+                            placeholder="Enter last name"
+                        />
+                        <InputError message={errors.lastname} />
                     </div>
                     {/* Email */}
                     <div className="grid gap-2">

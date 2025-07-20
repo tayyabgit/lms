@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained();
+            $table->string('firstname');
+            $table->string('middlename');
+            $table->string('lastname');
             $table->string('employee_code')->unique();
             $table->string('qualification')->nullable();
             $table->string('department')->nullable();
@@ -22,6 +25,7 @@ return new class extends Migration
             $table->string('gender')->nullable();
             $table->string('contact_number')->nullable();
             $table->text('address')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

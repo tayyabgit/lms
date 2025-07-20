@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained();
             $table->string('roll_number')->unique();
             $table->unsignedBigInteger('class_id');
             $table->date('admission_date')->nullable();
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('dob')->nullable();
             $table->string('address')->nullable();
             $table->string('contact_number')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
