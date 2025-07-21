@@ -39,10 +39,10 @@ export function AppSidebar() {
                             {mainNavItems.map((project) => (
                                 <SidebarMenuItem key={project.title} className="group flex items-center justify-between">
                                     <SidebarMenuButton asChild>
-                                        <a href={project.mainHref} className="flex flex-1 items-center gap-2">
+                                        <Link href={project.mainHref} className="flex flex-1 items-center gap-2" prefetch>
                                             {project.icon && <project.icon className="h-5 w-5" />}
                                             <span>{project.title}</span>
-                                        </a>
+                                        </Link>
                                     </SidebarMenuButton>
                                     {project.subUrl && (
                                         <Link

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SchoolClassRequest;
+use App\Models\Department;
+use App\Models\SchoolClass;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +16,8 @@ class ClassController extends Controller
      */
     public function index()
     {
-        //
+        $classes = SchoolClass::with('class_teacher', 'department')->paginate(15);
+        return Inertia::render('school-classes/class-index', ['classes' => $classes]);
     }
 
     /**
@@ -20,39 +25,45 @@ class ClassController extends Controller
      */
     public function create()
     {
-        //
+        $teachers = Teacher::getAll(false);
+        $departments = Department::all();
+        return Inertia::render('school-classes/class-create', compact('teachers', 'departments'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SchoolClassRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        if (SchoolClass::create($request->validated())) {
+            return redirect()->route('classes.index')->with('success', 'Class has been added successfully!');
+        } else {
+            return back()->with('error', 'Class has not been added!');
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(SchoolClass $class)
     {
-        //
+        $schoolClass = $class;
+        $teachers = Teacher::getAll(false);
+        $departments = Department::all();
+
+        return Inertia::render('school-classes/class-edit', compact('teachers', 'departments', 'schoolClass'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SchoolClassRequest $request, SchoolClass $class)
     {
-        //
+        if ($class->update($request->validated())) {
+            return redirect()->route('classes.index')->with('success', 'Class has been updated successfully!');
+        } else {
+            return back()->with('error', 'Class has not been updated!');
+        }
     }
 
     /**

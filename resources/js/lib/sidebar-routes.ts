@@ -1,31 +1,34 @@
-import { LayoutGrid, Users, Shapes, UsersRound, Folder, BookOpen, LucideIcon } from 'lucide-react';
+import { LayoutGrid, Users, Shapes, UsersRound, Folder, BookOpen, LucideIcon, School } from 'lucide-react';
 import { type NavItem } from '@/types';
+import { Link } from '@inertiajs/react';
 
-export const mainNavItems: (NavItem & { url: string; icon: LucideIcon; subUrl?: string })[] = [
+export const mainNavItems: (NavItem & { icon: LucideIcon; subUrl?: string })[] = [
     {
         title: 'Dashboard',
         mainHref: '/dashboard',
-        url: '/dashboard',
         icon: LayoutGrid,
     },
     {
         title: 'Teachers',
         mainHref: '/teachers',
-        url: '/teachers',
         icon: Users,
         subUrl: '/teachers/create',
     },
     {
         title: 'Departments',
         mainHref: '/departments',
-        url: '/departments',
         icon: Shapes,
-        subUrl:'departments/create'
+        subUrl:'/departments/create'
+    },
+    {
+        title: 'Classes',
+        mainHref: '/classes',
+        icon: School,
+        subUrl:'/classes/create'
     },
     {
         title: 'Students',
         mainHref: '/students',
-        url: '/students',
         icon: UsersRound,
         subUrl: '/students/create',
     },

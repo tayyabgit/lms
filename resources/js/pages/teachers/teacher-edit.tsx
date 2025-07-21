@@ -27,6 +27,7 @@ export default function TeacherEdit() {
             address: string;
         };
     };
+
     const { data, setData, put, processing, errors } = useForm({
         firstname: teacher.firstname || '',
         middlename: teacher.middlename || '',
