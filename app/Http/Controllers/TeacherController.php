@@ -65,7 +65,7 @@ class TeacherController extends Controller
     {
         $rules = [
             'firstname' => 'required|string|max:255',
-            'middlename' => 'string|max:255',
+            'middlename' => 'nullable|string|max:255',
             'lastname' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $teacher->user_id,
             'password' => 'nullable|string|confirmed|min:8',

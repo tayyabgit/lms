@@ -41,11 +41,12 @@ export default function StudentCreate({ classes }: StudentCreateProps) {
         address: '',
         contact_number: '',
     });
-
-    console.log(classes);
+    console.log(errors);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+        console.log(data);
+
         post(route('students.store'));
     };
 

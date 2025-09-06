@@ -72,7 +72,7 @@ export default function ClassCreate({ teachers, departments }: ComponentProps) {
                     <div className="grid gap-2">
                         <Label htmlFor="section">Section</Label>
                         <SectionDropdown
-                            value={data.class_teacher_id ? String(data.class_teacher_id) : ''}
+                            value={data.section ? String(data.section) : ''}
                             onValueChange={(value) => setData('section', value)}
                             disabled={processing}
                         />

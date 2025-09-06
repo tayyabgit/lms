@@ -42,12 +42,12 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $rules = [
             'firstname' => 'required|string|max:255',
             'middlename' => 'nullable|string|max:255',
             'lastname' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|confirmed|min:8',
             'roll_number' => 'required|string|unique:students,roll_number',
             'class_id' => 'required',
             'admission_date' => 'nullable|date',
@@ -56,17 +56,22 @@ class StudentController extends Controller
             'address' => 'nullable|string',
             'contact_number' => 'nullable|string',
         ];
+
         $validated = $request->validate($rules);
+
         $roleId = \App\Models\Role::where('name', 'student')->value('id');
+
         $user = User::create([
             'name' => trim($validated['firstname'] . ' ' . ($validated['middlename'] ?? '') . ' ' . $validated['lastname']),
             'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
             'role_id' => $roleId,
         ]);
+
         $studentData = $validated;
         $studentData['user_id'] = $user->id;
+
         unset($studentData['email'], $studentData['password'], $studentData['password_confirmation']);
+
         Student::create($studentData);
         return redirect()->route('students.index')->with('success', 'Student created successfully.');
     }

@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('roll_number')->unique();
             $table->unsignedBigInteger('class_id');
+            $table->string('firstname');
+            $table->string('middlename');
+            $table->string('lastname');
+            $table->string('roll_number')->unique();
             $table->date('admission_date')->nullable();
             $table->string('gender')->nullable();
             $table->date('dob')->nullable();
