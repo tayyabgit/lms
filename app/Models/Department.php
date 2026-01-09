@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Department extends Model
 {
@@ -12,7 +13,7 @@ class Department extends Model
         'description',
     ];
 
-    public function headTeacher()
+    public function headTeacher(): BelongsTo
     {
         return $this->belongsTo(Teacher::class, 'head_teacher_id');
     }

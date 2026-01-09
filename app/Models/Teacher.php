@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+<<<<<<< Updated upstream
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
+=======
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+>>>>>>> Stashed changes
 
 class Teacher extends Model
 {
@@ -24,7 +28,7 @@ class Teacher extends Model
         'address',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

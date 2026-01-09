@@ -19,9 +19,9 @@ class TeacherController extends Controller
 
     public function create()
     {
-        $users = User::select('id', 'name', 'email')->get();
+        $roles = \App\Models\Role::select('id', 'name')->get();
         return Inertia::render('teachers/teacher-create', [
-            'users' => $users,
+            'roles' => $roles,
         ]);
     }
 

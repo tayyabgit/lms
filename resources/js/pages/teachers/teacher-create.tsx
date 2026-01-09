@@ -2,17 +2,38 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+<<<<<<< Updated upstream
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+=======
+import {
+    Select,
+    SelectTrigger,
+    SelectContent,
+    SelectItem,
+    SelectValue,
+} from '@/components/ui/select';
+>>>>>>> Stashed changes
 import AppLayout from '@/layouts/app-layout';
 import { useForm } from '@inertiajs/react';
 import { DatePicker } from '../../components/DatePicker';
+
+interface Role {
+    id: number;
+    name: string;
+}
+
+interface TeacherCreateProps {
+    roles?: Role[];
+}
 
 type TeacherForm = {
     firstname: string;
     middlename: string;
     lastname: string;
     email: string;
+    password: string;
+    password_confirmation: string;
     role_id: string;
     employee_code: string;
     qualification: string;
@@ -24,12 +45,14 @@ type TeacherForm = {
     address: string;
 };
 
-export default function TeacherCreate() {
+export default function TeacherCreate({ roles = [] }: TeacherCreateProps) {
     const { data, setData, post, processing, errors } = useForm<TeacherForm>({
         firstname: '',
         middlename: '',
         lastname: '',
         email: '',
+        password: '',
+        password_confirmation: '',
         role_id: '2',
         employee_code: '',
         qualification: '',
@@ -109,6 +132,55 @@ export default function TeacherCreate() {
                             autoComplete="email"
                         />
                         <InputError message={errors.email} />
+                    </div>
+                    {/* Password */}
+                    <div className="grid gap-2">
+                        <Label htmlFor="password">Password</Label>
+                        <Input
+                            id="password"
+                            type="password"
+                            value={data.password}
+                            onChange={(e) => setData('password', e.target.value)}
+                            disabled={processing}
+                            placeholder="Enter password"
+                            autoComplete="new-password"
+                        />
+                        <InputError message={errors.password} />
+                    </div>
+                    {/* Password Confirmation */}
+                    <div className="grid gap-2">
+                        <Label htmlFor="password_confirmation">Confirm Password</Label>
+                        <Input
+                            id="password_confirmation"
+                            type="password"
+                            value={data.password_confirmation}
+                            onChange={(e) => setData('password_confirmation', e.target.value)}
+                            disabled={processing}
+                            placeholder="Confirm password"
+                            autoComplete="new-password"
+                        />
+                        <InputError message={errors.password_confirmation} />
+                    </div>
+                    {/* Role */}
+                    <div className="grid gap-2">
+                        <Label htmlFor="role_id">Role</Label>
+                        <Select
+                            value={data.role_id || undefined}
+                            onValueChange={(value) => setData('role_id', value)}
+                            disabled={processing}
+                        >
+                            <SelectTrigger id="role_id">
+                                <SelectValue placeholder="Select role" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {roles.map((role) => (
+                                    <SelectItem key={role.id} value={String(role.id)}>
+                                        {role.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <InputError message={errors.role_id} />
                     </div>
                     {/* Employee Code */}
                     <div className="grid gap-2">
@@ -204,6 +276,7 @@ export default function TeacherCreate() {
                     {/* Address */}
                     <div className="grid gap-2 md:col-span-3">
                         <Label htmlFor="address">Address</Label>
+<<<<<<< Updated upstream
                         <Textarea onChange={(e) => setData('address', e.target.value)} disabled={processing} placeholder="Enter address"></Textarea>
                         <InputError message={errors.address} />
                     </div>
@@ -212,6 +285,22 @@ export default function TeacherCreate() {
                 <input type="hidden" name="role_id" value={data.role_id} />
                 <div className="md:col-span-2">
                     <Button type="submit" className="mt-2" disabled={processing}>
+=======
+                        <textarea
+                            id="address"
+                            rows={4}
+                            value={data.address}
+                            onChange={(e) => setData('address', e.target.value)}
+                            disabled={processing}
+                            placeholder="Enter address"
+                            className="border-input file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex min-h-[60px] w-full min-w-0 rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                        />
+                        <InputError message={errors.address} />
+                    </div>
+                </div>
+                <div className="md:col-span-3">
+                    <Button type="submit" className="mt-2 w-full" disabled={processing}>
+>>>>>>> Stashed changes
                         {processing ? 'Saving...' : 'Add Teacher'}
                     </Button>
                 </div>

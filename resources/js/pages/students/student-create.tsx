@@ -3,10 +3,22 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+<<<<<<< Updated upstream
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import { useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
+=======
+import InputError from '@/components/input-error';
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from '@/components/ui/select';
+import { type BreadcrumbItem } from '@/types';
+>>>>>>> Stashed changes
 
 interface StudentCreateProps {
     classes: { id: number; name: string; section?: string }[];
@@ -43,9 +55,16 @@ export default function StudentCreate({ classes }: StudentCreateProps) {
     });
     console.log(errors);
 
+<<<<<<< Updated upstream
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         console.log(data);
+=======
+  const breadcrumbs: BreadcrumbItem[] = [
+      { title: 'Students', href: '/students' },
+      { title: 'Add Student', href: '/students/create' },
+  ];
+>>>>>>> Stashed changes
 
         post(route('students.store'));
     };

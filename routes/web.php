@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
-use App\Http\Controllers\DepartmentController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -23,5 +23,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('students', StudentController::class);
 });
 
+<<<<<<< Updated upstream
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
+=======
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';
+>>>>>>> Stashed changes
