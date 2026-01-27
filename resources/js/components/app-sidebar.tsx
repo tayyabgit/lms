@@ -12,56 +12,10 @@ import {
 } from '@/components/ui/sidebar';
 import { footerNavItems, mainNavItems } from '@/lib/sidebar-routes';
 import { Link } from '@inertiajs/react';
-<<<<<<< Updated upstream
 import { Plus } from 'lucide-react';
 import AppLogo from './app-logo';
 import { NavFooter } from './nav-footer';
 import { NavUser } from './nav-user';
-=======
-import { BookOpen, Folder, LayoutGrid, Shapes, UsersRound, Users, GraduationCap } from 'lucide-react';
-import AppLogo from './app-logo';
-
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Students',
-        href: '/students',
-        icon: UsersRound,
-    },
-    {
-        title: 'Teachers',
-        href: '/teachers',
-        icon: Users,
-    },
-    {
-        title: 'Classes',
-        href: '/classes',
-        icon: GraduationCap,
-    },
-    {
-        title: 'Departments',
-        href: '/departments',
-        icon: Shapes,
-    },
-];
-
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
-];
->>>>>>> Stashed changes
 
 export function AppSidebar() {
     return (

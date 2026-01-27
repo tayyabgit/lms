@@ -16,17 +16,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-
     Route::resource('teachers', TeacherController::class);
     Route::resource('departments', DepartmentController::class);
     Route::resource('classes', ClassController::class);
     Route::resource('students', StudentController::class);
 });
 
-<<<<<<< Updated upstream
-require __DIR__ . '/settings.php';
-require __DIR__ . '/auth.php';
-=======
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
->>>>>>> Stashed changes

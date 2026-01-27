@@ -2,10 +2,6 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-<<<<<<< Updated upstream
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-=======
 import {
     Select,
     SelectTrigger,
@@ -13,10 +9,8 @@ import {
     SelectItem,
     SelectValue,
 } from '@/components/ui/select';
->>>>>>> Stashed changes
 import AppLayout from '@/layouts/app-layout';
 import { useForm } from '@inertiajs/react';
-import { DatePicker } from '../../components/DatePicker';
 
 interface Role {
     id: number;
@@ -28,9 +22,7 @@ interface TeacherCreateProps {
 }
 
 type TeacherForm = {
-    firstname: string;
-    middlename: string;
-    lastname: string;
+    name: string;
     email: string;
     password: string;
     password_confirmation: string;
@@ -47,9 +39,7 @@ type TeacherForm = {
 
 export default function TeacherCreate({ roles = [] }: TeacherCreateProps) {
     const { data, setData, post, processing, errors } = useForm<TeacherForm>({
-        firstname: '',
-        middlename: '',
-        lastname: '',
+        name: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -79,45 +69,20 @@ export default function TeacherCreate({ roles = [] }: TeacherCreateProps) {
         >
             <form className="flex w-full flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-6 md:grid-cols-3">
-                    {/* First Name */}
+                    {/* Name */}
                     <div className="grid gap-2">
-                        <Label htmlFor="firstname">First Name</Label>
+                        <Label htmlFor="name">Name</Label>
                         <Input
-                            id="firstname"
+                            id="name"
                             type="text"
-                            value={data.firstname}
-                            onChange={(e) => setData('firstname', e.target.value)}
+                            value={data.name}
+                            onChange={(e) => setData('name', e.target.value)}
                             disabled={processing}
-                            placeholder="Enter first name"
+                            placeholder="Enter name"
                             autoFocus
+                            autoComplete="name"
                         />
-                        <InputError message={errors.firstname} />
-                    </div>
-                    {/* Middle Name */}
-                    <div className="grid gap-2">
-                        <Label htmlFor="middlename">Middle Name</Label>
-                        <Input
-                            id="middlename"
-                            type="text"
-                            value={data.middlename}
-                            onChange={(e) => setData('middlename', e.target.value)}
-                            disabled={processing}
-                            placeholder="Enter middle name"
-                        />
-                        <InputError message={errors.middlename} />
-                    </div>
-                    {/* Last Name */}
-                    <div className="grid gap-2">
-                        <Label htmlFor="lastname">Last Name</Label>
-                        <Input
-                            id="lastname"
-                            type="text"
-                            value={data.lastname}
-                            onChange={(e) => setData('lastname', e.target.value)}
-                            disabled={processing}
-                            placeholder="Enter last name"
-                        />
-                        <InputError message={errors.lastname} />
+                        <InputError message={errors.name} />
                     </div>
                     {/* Email */}
                     <div className="grid gap-2">
@@ -237,10 +202,11 @@ export default function TeacherCreate({ roles = [] }: TeacherCreateProps) {
                     {/* Joining Date */}
                     <div className="grid gap-2">
                         <Label htmlFor="joining_date">Joining Date</Label>
-                        <DatePicker
+                        <Input
+                            id="joining_date"
+                            type="date"
                             value={data.joining_date}
-                            onChange={(val) => setData('joining_date', val)}
-                            defaultToToday={true}
+                            onChange={(e) => setData('joining_date', e.target.value)}
                             disabled={processing}
                         />
                         <InputError message={errors.joining_date} />
@@ -248,16 +214,18 @@ export default function TeacherCreate({ roles = [] }: TeacherCreateProps) {
                     {/* Gender */}
                     <div className="grid gap-2">
                         <Label htmlFor="gender">Gender</Label>
-                        <Select value={data.gender} onValueChange={(value) => setData('gender', value)} disabled={processing}>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select gender" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="male">Male</SelectItem>
-                                <SelectItem value="female">Female</SelectItem>
-                                <SelectItem value="other">Other</SelectItem>
-                            </SelectContent>
-                        </Select>
+                        <select
+                            id="gender"
+                            value={data.gender}
+                            onChange={(e) => setData('gender', e.target.value)}
+                            disabled={processing}
+                            className="rounded-lg border-gray-300 px-3 py-2 shadow-sm focus:ring-2 focus:ring-blue-400"
+                        >
+                            <option value="">Select gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
                         <InputError message={errors.gender} />
                     </div>
                     {/* Contact Number */}
@@ -276,16 +244,6 @@ export default function TeacherCreate({ roles = [] }: TeacherCreateProps) {
                     {/* Address */}
                     <div className="grid gap-2 md:col-span-3">
                         <Label htmlFor="address">Address</Label>
-<<<<<<< Updated upstream
-                        <Textarea onChange={(e) => setData('address', e.target.value)} disabled={processing} placeholder="Enter address"></Textarea>
-                        <InputError message={errors.address} />
-                    </div>
-                </div>
-                {/* Hidden Role ID */}
-                <input type="hidden" name="role_id" value={data.role_id} />
-                <div className="md:col-span-2">
-                    <Button type="submit" className="mt-2" disabled={processing}>
-=======
                         <textarea
                             id="address"
                             rows={4}
@@ -300,7 +258,6 @@ export default function TeacherCreate({ roles = [] }: TeacherCreateProps) {
                 </div>
                 <div className="md:col-span-3">
                     <Button type="submit" className="mt-2 w-full" disabled={processing}>
->>>>>>> Stashed changes
                         {processing ? 'Saving...' : 'Add Teacher'}
                     </Button>
                 </div>
